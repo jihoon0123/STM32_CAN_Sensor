@@ -1,7 +1,7 @@
-STM32 CAN Communication Project
+#STM32 CAN Communication Project
 
 
-📋 프로젝트 개요
+##📋 프로젝트 개요
 
 
 이 프로젝트는 STM32F103과 STM32F411 보드를 사용하여, MCP2515 모듈을 통해 CAN 통신을 구현하고,
