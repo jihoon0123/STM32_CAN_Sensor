@@ -1,5 +1,5 @@
-STM32 CAN Communication Project
-📋 프로젝트 개요
+#STM32 CAN Communication Project
+##📋 프로젝트 개요
 이 프로젝트는 STM32F103과 STM32F411 보드를 사용하여, MCP2515 모듈을 통해 CAN 통신을 구현하고,
 DHT11 센서에서 측정한 온습도 데이터를 송신 및 수신하여 LCD에 표시하는 시스템을 개발한 것입니다.
 FreeRTOS를 적용하여 안정적인 데이터 통신과 태스크 관리를 수행했습니다.
