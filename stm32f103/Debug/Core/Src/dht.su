@@ -1,0 +1,4 @@
+../Core/Src/dht.c:15:6:Delay	16	static
+../Core/Src/dht.c:21:9:DHT_Start	48	static
+../Core/Src/dht.c:59:9:DHT_Read	16	static
+../Core/Src/dht.c:86:6:DHT_GetData	40	static
