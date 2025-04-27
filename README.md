@@ -162,24 +162,71 @@ Debugger: ST-Link v2
 
 Frameworks: HAL, FreeRTOS
 
-### 🔧 빌드 및 업로드
+## 🔧 빌드 및 업로드
 1. 해당 보드 프로젝트 `Import`  
 2. `FreeRTOS` 설정 확인  
 3. 빌드 및 업로드  
 4. 하드웨어 연결 후 시스템 실행  
 
-### 🔌 하드웨어 연결
-| 모듈      | STM32 핀 | MCP2515 핀 | 비고          |
+## 🔌 하드웨어 연결
+### 🚀Transmitter
+| 모듈      | STM32 핀 | 설정 | 비고          |
 | :--------- | :-------- | :---------- | :------------ |
+| CAN_CS    | PA4       | CS          |               |
 | SPI (SCK) | PA5       | SCK         |               |
 | SPI (MISO)| PA6       | SO          |               |
 | SPI (MOSI)| PA7       | SI          |               |
-| CS        | PB0       | CS          | 사용자 설정   |
-| INT       | PB1       | INT         |               |
-| I2C (LCD) | PB6/PB7   | SDA/SCL     | LCD 연결       |
-| DHT11     | PA1       | DATA        | 송신 측 연결  |
+| UART_TX   | PA9       | TX          |               |
+| UART_RX   | PA10      | RX          |               |
+| CS        | PB9       | CS          | 사용자 설정   |
+| DHT11     | PB4       | DATA        |               |
 
----
+### 🚀Receiver
+| 모듈      | STM32 핀 | 설정 | 비고          |
+| :--------- | :-------- | :---------- | :------------ |
+| CAN CS    | PA4       | CS          | 사용자 설정   |
+| SPI (SCK) | PA5       | SCK         |              |
+| SPI (MISO)| PA6       | SO          |              |
+| SPI (MOSI)| PA7       | SI          |              |
+| UART1_TX  | PA9       | TX          |              |
+| UART_RX   | PA10      | RX          |              |
+| CS_PIN    | PB7       | CS          | 사용자 설정   |
+| DC_PIN    | PB8       | DC          | 사용자 설정   |
+| RST_PIN   | PB9       | RST         | 사용자 설정   |
+
+## 📝 주요 기능 및 코드 설명
+
+### 🌡️ 데이터 송신 (Transmitter)
+```c
+ DHT_GetData(&temperature, &humidity);
+ uint16_t TempToSend = (uint16_t)(temperature*100);
+ uint16_t HumiToSend = (uint16_t)(humidity*100);
+
+ txMessage.frame.idType = dSTANDARD_CAN_MSG_ID_2_0B;
+ txMessage.frame.id = 0x167;
+ txMessage.frame.dlc = 8;
+ txMessage.frame.data0 = (TempToSend >> 8) & 0xFF;
+ txMessage.frame.data1 = TempToSend & 0xFF;
+ txMessage.frame.data2 = (HumiToSend >> 8) & 0xFF;
+ txMessage.frame.data3 = HumiToSend &0xFF;
+ txMessage.frame.data4 = 0;
+ txMessage.frame.data5 = 0;
+ txMessage.frame.data6 = 0;
+ txMessage.frame.data7 = 0;
+
+ CANSPI_Transmit(&txMessage);
+
+ if(CANSPI_Transmit(&txMessage) == 1)
+ {
+  printf("송신이 성공했습니다.\n");
+ }
+ else
+ {
+ printf("송신이 실패했습니다.\n");
+ }
+
+ HAL_Delay(1000);
+```
 
 ## 📝 추가 참고사항
 FreeRTOS의 큐(Queue)를 활용해 CAN 데이터 수신 안정성 확보
