@@ -44,7 +44,7 @@ FreeRTOS 기반 멀티태스킹 구조
     │
 [MCP2515] ── SPI ── [STM32F411] 
     │
-[LCD (I2C)] 
+[LCD (SPI)] 
     │
 [UART 디버깅 출력]
 ```
@@ -62,8 +62,7 @@ FreeRTOS 기반 멀티태스킹 구조
    - 수신 상태 UART 출력  
 
 3. **FreeRTOS Task 구조**  
-   - Sensor Task  
-   - CAN Tx/Rx Task  
+   - CAN Rx Task  
    - LCD Update Task  
    - Debug Task  
 
@@ -76,18 +75,66 @@ FreeRTOS 기반 멀티태스킹 구조
 STM32-CAN-Communication-Project/
 ├── Transmitter/
 │   ├── Core/
-│   ├── Drivers/
-│   ├── FreeRTOS/
+│   │   ├── Inc/
+│   │   │   ├── can.h
+│   │   │   ├── gpio.h
+│   │   │   ├── main.h
+│   │   │   ├── mcp2515.h
+│   │   │   ├── spi.h
+│   │   │   ├── stm32f4xx_hal_conf.h
+│   │   │   ├── stm32f4xx_it.h
+│   │   │   ├── tim.h
+│   │   │   └── usart.h
+│   │   ├── Src/
+│   │   │   ├── can.c
+│   │   │   ├── gpio.c
+│   │   │   ├── main.c
+│   │   │   ├── mcp2515.c
+│   │   │   ├── spi.c
+│   │   │   ├── ST7735.c
+│   │   │   ├── stm32f4xx_hal_msp.c
+│   │   │   ├── stm32f4xx_hal_timebase_tim.c
+│   │   │   ├── stm32f4xx_it.c
+│   │   │   ├── syscalls.c
+│   │   │   ├── sysmem.c
+│   │   │   ├── system_stm32f4xx.c
+│   │   │   ├── tim.c
+│   │   │   └── usart.c
 │   └── README.md
 ├── Receiver/
 │   ├── Core/
-│   ├── Drivers/
-│   ├── FreeRTOS/
-│   └── README.md
-├── Docs/
-│   ├── architecture.png
-│   ├── flowchart.png
-│   └── screenshots/
+│   │   ├── Inc/
+│   │   │   ├── can.h
+│   │   │   ├── fonts.h
+│   │   │   ├── FreeRTOSConfig.h
+│   │   │   ├── GFX_FUNCTIONS.h
+│   │   │   ├── gpio.h
+│   │   │   ├── main.h
+│   │   │   ├── mcp2515.h
+│   │   │   ├── spi.h
+│   │   │   ├── ST7735.h
+│   │   │   ├── stm32f4xx_hal_conf.h
+│   │   │   ├── stm32f4xx_it.h
+│   │   │   ├── tim.h
+│   │   │   └── usart.h
+│   │   ├── Src/
+│   │   │   ├── can.c
+│   │   │   ├── fonts.c
+│   │   │   ├── freertos.c
+│   │   │   ├── GFX_FUNCTIONS.c
+│   │   │   ├── gpio.c
+│   │   │   ├── main.c
+│   │   │   ├── mcp2515.c
+│   │   │   ├── spi.c
+│   │   │   ├── ST7735.c
+│   │   │   ├── stm32f4xx_hal_msp.c
+│   │   │   ├── stm32f4xx_hal_timebase_tim.c
+│   │   │   ├── stm32f4xx_it.c
+│   │   │   ├── syscalls.c
+│   │   │   ├── sysmem.c
+│   │   │   ├── system_stm32f4xx.c
+│   │   │   ├── tim.c
+│   │   │   └── usart.c
 ├── README.md
 └── LICENSE
 ```
@@ -115,14 +162,24 @@ Debugger: ST-Link v2
 
 Frameworks: HAL, FreeRTOS
 
-## 🚀 빌드 및 실행 방법
-STM32CubeIDE로 프로젝트 Import
+### 🔧 빌드 및 업로드
+1. 해당 보드 프로젝트 `Import`  
+2. `FreeRTOS` 설정 확인  
+3. 빌드 및 업로드  
+4. 하드웨어 연결 후 시스템 실행  
 
-각각의 보드에 맞게 프로젝트 빌드 후 업로드
+### 🔌 하드웨어 연결
+| 모듈      | STM32 핀 | MCP2515 핀 | 비고          |
+| :--------- | :-------- | :---------- | :------------ |
+| SPI (SCK) | PA5       | SCK         |               |
+| SPI (MISO)| PA6       | SO          |               |
+| SPI (MOSI)| PA7       | SI          |               |
+| CS        | PB0       | CS          | 사용자 설정   |
+| INT       | PB1       | INT         |               |
+| I2C (LCD) | PB6/PB7   | SDA/SCL     | LCD 연결       |
+| DHT11     | PA1       | DATA        | 송신 측 연결  |
 
-두 보드를 MCP2515 모듈과 연결하여 CAN 통신 설정
-
-시스템 실행 및 디버깅
+---
 
 ## 📝 추가 참고사항
 FreeRTOS의 큐(Queue)를 활용해 CAN 데이터 수신 안정성 확보
