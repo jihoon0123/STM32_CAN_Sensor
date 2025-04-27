@@ -119,14 +119,14 @@ FreeRTOS 기반 멀티태스킹 구조
 
 ### 🌡️ 데이터 송신 (Transmitter)
 ```c
- DHT_GetData(&temperature, &humidity);  // 온습도 데이터 얻는다.
- uint16_t TempToSend = (uint16_t)(temperature*100); //온도 값의 형식을 float에서 uint16_t로 바꿈
- uint16_t HumiToSend = (uint16_t)(humidity*100);  //습도 값의 형식을 float에서 uint16_t로 바꿈
+ DHT_GetData(&temperature, &humidity);  // 온습도 데이터
+ uint16_t TempToSend = (uint16_t)(temperature*100); //온도 값
+ uint16_t HumiToSend = (uint16_t)(humidity*100);  //습도 값
 
 //can메시지 설정
  txMessage.frame.idType = dSTANDARD_CAN_MSG_ID_2_0B;
- txMessage.frame.id = 0x167;
- txMessage.frame.dlc = 8;
+ txMessage.frame.id = 0x167; // 메시지 ID
+ txMessage.frame.dlc = 8; // 데이터 길이
  txMessage.frame.data0 = (TempToSend >> 8) & 0xFF;
  txMessage.frame.data1 = TempToSend & 0xFF;
  txMessage.frame.data2 = (HumiToSend >> 8) & 0xFF;
@@ -136,8 +136,8 @@ FreeRTOS 기반 멀티태스킹 구조
  txMessage.frame.data6 = 0;
  txMessage.frame.data7 = 0;
 
-
- if(CANSPI_Transmit(&txMessage) == 1)  // can메시지를 송신 및 송신확인
+// 메시지 송신 및 확인
+ if(CANSPI_Transmit(&txMessage) == 1)  
  {
   printf("송신이 성공했습니다.\n");
  }
@@ -157,18 +157,21 @@ FreeRTOS 기반 멀티태스킹 구조
 	uint16_t rxValue1;
 	uint16_t rxValue2;
 	CANSPI_Initialize();
-	fillScreen(BLACK);
+	fillScreen(BLACK); // 화면 초기화
 
 	for(;;)
 	{
 
-		if(CANSPI_Receive(&rxMessage)) //수신확인
+		if(CANSPI_Receive(&rxMessage)) // CAN 메시지 수신 확인
 	    {
+		// 수신된 데이터 파싱
 	        rxValue1 = ((uint16_t)rxMessage.frame.data0 << 8) | rxMessage.frame.data1;
 	        rxValue2 = ((uint16_t)rxMessage.frame.data2 << 8) | rxMessage.frame.data3;
 	        float temp = ((float)rxValue1)*0.01; //온도 데이터 형식변경
 	        float humi = ((float)rxValue2)*0.01; //습도 데이터 형식변경
-	        xQueueSendToBack(xQueue, &temp, portMAX_DELAY); //큐에 데이터를 전송한다.
+
+                // 수신된 데이터를 큐에 전송
+	        xQueueSendToBack(xQueue, &temp, portMAX_DELAY); 
 	        xQueueSendToBack(xQueue, &humi, portMAX_DELAY);
 
 	    }
