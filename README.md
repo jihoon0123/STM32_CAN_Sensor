@@ -98,7 +98,6 @@ FreeRTOS 기반 멀티태스킹 구조
 | SPI (MOSI)| PA7       | SI          |    MCP215      |
 | UART_TX   | PA9       | TX          |               |
 | UART_RX   | PA10      | RX          |               |
-| CS        | PB9       | CS          | 사용자 설정    |
 | DHT11     | PB4       | DATA        |      DHT11         |
 
 
