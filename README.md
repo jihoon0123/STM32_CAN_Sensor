@@ -111,6 +111,7 @@ FreeRTOS 기반 멀티태스킹 구조
 | CS_PIN    | PB7       | CS          | 사용자 설정   |
 | DC_PIN    | PB8       | DC          | 사용자 설정   |
 | RST_PIN   | PB9       | RST         | 사용자 설정   |
+| SCK_PIN   | PB10      | sck         |              |
 
 
 
