@@ -201,7 +201,7 @@ FreeRTOS 기반 멀티태스킹 구조
 
 | 송신 측 (UART 디버깅) | 수신 측 (LCD 출력) |
 |----------------------|---------------------|
-|![제목 없음](https://github.com/user-attachments/assets/00d914a0-5ede-4812-b960-12f88769832b) | ![20250426_153716](https://github.com/user-attachments/assets/c08a239a-d9ae-4729-8693-bb6e32de049d) |
+| ![온습도](https://github.com/user-attachments/assets/a3293732-c204-4a52-89a2-4df721221a47)| ![20250426_153716](https://github.com/user-attachments/assets/c08a239a-d9ae-4729-8693-bb6e32de049d) |
 
 																		
 
