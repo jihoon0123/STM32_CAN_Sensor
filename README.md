@@ -35,6 +35,15 @@ Debugging: UART 통신
 | Language       | C (HAL 라이브러리 활용)                       |
 | Debugger       | ST-Link v2                                    |
 
+## ⚙️ 개발 환경
+IDE: STM32CubeIDE
+
+Compiler: ARM-GCC
+
+Debugger: ST-Link v2
+
+Frameworks: HAL, FreeRTOS
+
 
 ## 📦 주요 기능
 DHT11 센서로 온도/습도 데이터 주기적 측정
@@ -78,25 +87,6 @@ FreeRTOS 기반 멀티태스킹 구조
    - CAN Rx Task  
    - LCD Update Task  
    - Debug Task  
-
-
-## ⚙️ 개발 환경
-IDE: STM32CubeIDE
-
-Compiler: ARM-GCC
-
-Debugger: ST-Link v2
-
-Frameworks: HAL, FreeRTOS
-
-
-
-## 🔧 빌드 및 업로드
-1. 해당 보드 프로젝트 `Import`  
-2. `FreeRTOS` 설정 확인  
-3. 빌드 및 업로드  
-4. 하드웨어 연결 후 시스템 실행
-
 
 
 ## 🔌 하드웨어 연결
@@ -187,18 +177,25 @@ Frameworks: HAL, FreeRTOS
 	}
 }
 ```
+## ⚡ 문제 해결 과정
+문제: 수신 측 값 갱신이 안 되는 문제
+➔ 해결: 배열 대신 구조체 사용 및 FreeRTOS Queue 적용 → 데이터 처리 안정성 향상
 
-
-
-## 📝 추가 참고사항
-FreeRTOS의 큐(Queue)를 활용해 CAN 데이터 수신 안정성 확보
-
-MCP2515 드라이버는 SPI 통신 기반으로 구현
-
-초기 통신 안정화 과정에서 리셋 문제를 해결
+문제: MCP2515 초기화 불안정
+➔ 해결: SPI 설정 확인 및 초기화 순서 수정
 
 ## 📸 결과 화면
-(※ LCD 출력 사진이나 UART 디버깅 로그 캡처 추가 예정)
 
-## 🧑‍💻 개발자
-Your Name (GitHub ID)
+송신 측 (UART 디버깅)	수신 측 (LCD 출력)
+			
+
+
+
+
+🔧 개선 사항 및 향후 계획
+
+
+다양한 센서 추가 및 데이터 전송
+
+데이터 로깅  ex)  내부 플래시, SD카드
+
