@@ -1,0 +1,5 @@
+../Core/Src/freertos.c:79:5:_write	24	static
+../Core/Src/freertos.c:94:6:MX_FREERTOS_Init	16	static
+../Core/Src/freertos.c:140:6:StartDefaultTask	16	static
+../Core/Src/freertos.c:154:6:DhtTask	48	static
+../Core/Src/freertos.c:179:6:LcdTask	64	static

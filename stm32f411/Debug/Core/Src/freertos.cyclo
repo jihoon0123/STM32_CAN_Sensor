@@ -1,0 +1,5 @@
+../Core/Src/freertos.c:79:5:_write	1
+../Core/Src/freertos.c:94:6:MX_FREERTOS_Init	1
+../Core/Src/freertos.c:140:6:StartDefaultTask	1
+../Core/Src/freertos.c:154:6:DhtTask	2
+../Core/Src/freertos.c:179:6:LcdTask	3

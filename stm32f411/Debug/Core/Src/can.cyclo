@@ -1,0 +1,11 @@
+../Core/Src/can.c:23:6:CANSPI_Sleep	1
+../Core/Src/can.c:35:6:CANSPI_Initialize	4
+../Core/Src/can.c:139:9:CANSPI_Transmit	4
+../Core/Src/can.c:188:9:CANSPI_Receive	5
+../Core/Src/can.c:242:9:CANSPI_messagesInBuffer	3
+../Core/Src/can.c:262:9:CANSPI_isBussOff	2
+../Core/Src/can.c:277:9:CANSPI_isRxErrorPassive	2
+../Core/Src/can.c:292:9:CANSPI_isTxErrorPassive	2
+../Core/Src/can.c:307:17:convertReg2ExtendedCANid	1
+../Core/Src/can.c:329:17:convertReg2StandardCANid	1
+../Core/Src/can.c:342:13:convertCANid2Reg	2
