@@ -16,11 +16,25 @@ Sensor: DHT11 (온습도 센서)
 
 CAN Controller: MCP2515 + TJA1050
 
-Display: LCD (I2C 통신)
+Display: LCD (ST7735)
 
 RTOS: FreeRTOS
 
 Debugging: UART 통신
+
+## 🛠️ 사용한 기술 스택
+| 구분           | 내용                                           |
+| :------------- | :-------------------------------------------- |
+| MCU            | STM32F103 (Transmitter) <br> STM32F411 (Receiver) |
+| Sensor         | DHT11 (온습도 센서)                           |
+| CAN Module     | MCP2515                         |
+| Display        | ST7735 (LCD)                                |
+| RTOS           | FreeRTOS                                      |
+| Communication  | CAN (SPI 기반 MCP2515) <br> UART (디버깅)    |
+| IDE            | STM32CubeIDE                                  |
+| Language       | C (HAL 라이브러리 활용)                       |
+| Debugger       | ST-Link v2                                    |
+
 
 ## 📦 주요 기능
 DHT11 센서로 온도/습도 데이터 주기적 측정
@@ -38,15 +52,15 @@ FreeRTOS 기반 멀티태스킹 구조
 ```plaintext
 [DHT11] 
     │ 
-[STM32F103] ── SPI ── [MCP2515] 
+[STM32F103] ── SPI ── [MCP2515]
+    |
+[UART 디버깅 출력]
     │
   CAN Bus
     │
 [MCP2515] ── SPI ── [STM32F411] 
     │
 [LCD (SPI)] 
-    │
-[UART 디버깅 출력]
 ```
 
 ## 🔄 시스템 흐름도
@@ -59,100 +73,13 @@ FreeRTOS 기반 멀티태스킹 구조
 2. **Receiver (STM32F411)**  
    - CAN 메시지 수신  
    - 데이터 파싱 및 LCD 출력  
-   - 수신 상태 UART 출력  
 
 3. **FreeRTOS Task 구조**  
    - CAN Rx Task  
    - LCD Update Task  
    - Debug Task  
 
----
 
-
-## 📂 프로젝트 구조
-
-```plaintext
-STM32-CAN-Communication-Project/
-├── Transmitter/
-│   ├── Core/
-│   │   ├── Inc/
-│   │   │   ├── can.h
-│   │   │   ├── gpio.h
-│   │   │   ├── main.h
-│   │   │   ├── mcp2515.h
-│   │   │   ├── spi.h
-│   │   │   ├── stm32f4xx_hal_conf.h
-│   │   │   ├── stm32f4xx_it.h
-│   │   │   ├── tim.h
-│   │   │   └── usart.h
-│   │   ├── Src/
-│   │   │   ├── can.c
-│   │   │   ├── gpio.c
-│   │   │   ├── main.c
-│   │   │   ├── mcp2515.c
-│   │   │   ├── spi.c
-│   │   │   ├── ST7735.c
-│   │   │   ├── stm32f4xx_hal_msp.c
-│   │   │   ├── stm32f4xx_hal_timebase_tim.c
-│   │   │   ├── stm32f4xx_it.c
-│   │   │   ├── syscalls.c
-│   │   │   ├── sysmem.c
-│   │   │   ├── system_stm32f4xx.c
-│   │   │   ├── tim.c
-│   │   │   └── usart.c
-│   └── README.md
-├── Receiver/
-│   ├── Core/
-│   │   ├── Inc/
-│   │   │   ├── can.h
-│   │   │   ├── fonts.h
-│   │   │   ├── FreeRTOSConfig.h
-│   │   │   ├── GFX_FUNCTIONS.h
-│   │   │   ├── gpio.h
-│   │   │   ├── main.h
-│   │   │   ├── mcp2515.h
-│   │   │   ├── spi.h
-│   │   │   ├── ST7735.h
-│   │   │   ├── stm32f4xx_hal_conf.h
-│   │   │   ├── stm32f4xx_it.h
-│   │   │   ├── tim.h
-│   │   │   └── usart.h
-│   │   ├── Src/
-│   │   │   ├── can.c
-│   │   │   ├── fonts.c
-│   │   │   ├── freertos.c
-│   │   │   ├── GFX_FUNCTIONS.c
-│   │   │   ├── gpio.c
-│   │   │   ├── main.c
-│   │   │   ├── mcp2515.c
-│   │   │   ├── spi.c
-│   │   │   ├── ST7735.c
-│   │   │   ├── stm32f4xx_hal_msp.c
-│   │   │   ├── stm32f4xx_hal_timebase_tim.c
-│   │   │   ├── stm32f4xx_it.c
-│   │   │   ├── syscalls.c
-│   │   │   ├── sysmem.c
-│   │   │   ├── system_stm32f4xx.c
-│   │   │   ├── tim.c
-│   │   │   └── usart.c
-├── README.md
-└── LICENSE
-```
-
-## 🛠️ 사용한 기술 스택
-| 구분           | 내용                                           |
-| :------------- | :-------------------------------------------- |
-| MCU            | STM32F103 (Transmitter) <br> STM32F411 (Receiver) |
-| Sensor         | DHT11 (온습도 센서)                           |
-| CAN Module     | MCP2515                         |
-| Display        | ST7735 (LCD)                                |
-| RTOS           | FreeRTOS                                      |
-| Communication  | CAN (SPI 기반 MCP2515) <br> UART (디버깅)    |
-| IDE            | STM32CubeIDE                                  |
-| Language       | C (HAL 라이브러리 활용)                       |
-| Debugger       | ST-Link v2                                    |
-
----
 ## ⚙️ 개발 환경
 IDE: STM32CubeIDE
 
@@ -162,11 +89,15 @@ Debugger: ST-Link v2
 
 Frameworks: HAL, FreeRTOS
 
+
+
 ## 🔧 빌드 및 업로드
 1. 해당 보드 프로젝트 `Import`  
 2. `FreeRTOS` 설정 확인  
 3. 빌드 및 업로드  
-4. 하드웨어 연결 후 시스템 실행  
+4. 하드웨어 연결 후 시스템 실행
+
+
 
 ## 🔌 하드웨어 연결
 ### 🚀Transmitter
@@ -181,6 +112,7 @@ Frameworks: HAL, FreeRTOS
 | CS        | PB9       | CS          | 사용자 설정   |
 | DHT11     | PB4       | DATA        |               |
 
+
 ### 🚀Receiver
 | 모듈      | STM32 핀 | 설정 | 비고          |
 | :--------- | :-------- | :---------- | :------------ |
@@ -188,11 +120,11 @@ Frameworks: HAL, FreeRTOS
 | SPI (SCK) | PA5       | SCK         |              |
 | SPI (MISO)| PA6       | SO          |              |
 | SPI (MOSI)| PA7       | SI          |              |
-| UART1_TX  | PA9       | TX          |              |
-| UART_RX   | PA10      | RX          |              |
 | CS_PIN    | PB7       | CS          | 사용자 설정   |
 | DC_PIN    | PB8       | DC          | 사용자 설정   |
 | RST_PIN   | PB9       | RST         | 사용자 설정   |
+
+
 
 ## 📝 주요 기능 및 코드 설명
 
@@ -227,6 +159,36 @@ Frameworks: HAL, FreeRTOS
 
  HAL_Delay(1000);
 ```
+
+### 🌡️ 데이터 수신 (Receiver)
+```c
+ void DhtTask(void *parameter)
+{
+	uCAN_MSG rxMessage;
+	uint16_t rxValue1;
+	uint16_t rxValue2;
+	CANSPI_Initialize();
+	fillScreen(BLACK);
+
+	for(;;)
+	{
+
+		if(CANSPI_Receive(&rxMessage))
+	    {
+	        rxValue1 = ((uint16_t)rxMessage.frame.data0 << 8) | rxMessage.frame.data1;
+	        rxValue2 = ((uint16_t)rxMessage.frame.data2 << 8) | rxMessage.frame.data3;
+	        float temp = ((float)rxValue1)*0.01;
+	        float humi = ((float)rxValue2)*0.01;
+	        xQueueSendToBack(xQueue, &temp, portMAX_DELAY);
+	        xQueueSendToBack(xQueue, &humi, portMAX_DELAY);
+
+	    }
+		vTaskDelay(pdMS_TO_TICKS(500));
+	}
+}
+```
+
+
 
 ## 📝 추가 참고사항
 FreeRTOS의 큐(Queue)를 활용해 CAN 데이터 수신 안정성 확보
