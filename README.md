@@ -84,8 +84,8 @@ FreeRTOS 기반 멀티태스킹 구조
    - 데이터 파싱 및 LCD 출력  
 
 3. **FreeRTOS Task 구조**  
-   - CAN Rx Task  
-   - LCD Update Task  
+   - CAN Rx Task를 통해 송신 측 DHT11 데이터를 수신받음 
+   - 수신받은 데이터를 다시 Queue를 활용해 LCD Update Task로 받고 화면표시
 
 
 ## 🔌 하드웨어 연결
