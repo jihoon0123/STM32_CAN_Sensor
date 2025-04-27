@@ -1,4 +1,4 @@
-# 🚀STM32 CAN Communication Project
+# 🚀STM32 CAN 통신 프로젝트
 
 ---
 
