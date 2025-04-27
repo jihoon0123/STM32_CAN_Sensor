@@ -137,14 +137,12 @@ FreeRTOS 기반 멀티태스킹 구조
  txMessage.frame.data7 = 0;
 
 // 메시지 송신 및 확인
- if(CANSPI_Transmit(&txMessage) == 1)  
- {
-  printf("송신이 성공했습니다.\n");
- }
- else
- {
- printf("송신이 실패했습니다.\n");
- }
+ if(CANSPI_Transmit(&txMessage) == 1)
+{
+    printf("송신이 성공했습니다: 온도 %.2f, 습도 %.2f\n", temperature, humidity);
+} else {
+    printf("송신이 실패했습니다.\n");
+}
 
  HAL_Delay(1000);
 ```
