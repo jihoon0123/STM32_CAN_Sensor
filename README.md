@@ -90,16 +90,16 @@ FreeRTOS 기반 멀티태스킹 구조
 
 ## 🔌 하드웨어 연결
 ### 🚀Transmitter
-| 모듈      | STM32 핀 | 설정 | 비고          |
+| 모듈      | STM32 핀 | 설정 | 비고          |    
 | :--------- | :-------- | :---------- | :------------ |
-| CAN_CS    | PA4       | CS          |               |
-| SPI (SCK) | PA5       | SCK         |               |
-| SPI (MISO)| PA6       | SO          |               |
-| SPI (MOSI)| PA7       | SI          |               |
+| CAN_CS    | PA4       | CS          |    MCP2515          |
+| SPI (SCK) | PA5       | SCK         |    MCP215          |
+| SPI (MISO)| PA6       | SO          |    MCP215          |
+| SPI (MOSI)| PA7       | SI          |    MCP215      |
 | UART_TX   | PA9       | TX          |               |
 | UART_RX   | PA10      | RX          |               |
-| CS        | PB9       | CS          | 사용자 설정   |
-| DHT11     | PB4       | DATA        |               |
+| CS        | PB9       | CS          | 사용자 설정    |
+| DHT11     | PB4       | DATA        |      DHT11         |
 
 
 ### 🚀Receiver
@@ -119,10 +119,11 @@ FreeRTOS 기반 멀티태스킹 구조
 
 ### 🌡️ 데이터 송신 (Transmitter)
 ```c
- DHT_GetData(&temperature, &humidity);
- uint16_t TempToSend = (uint16_t)(temperature*100);
- uint16_t HumiToSend = (uint16_t)(humidity*100);
+ DHT_GetData(&temperature, &humidity);  // 온습도 데이터 얻는다.
+ uint16_t TempToSend = (uint16_t)(temperature*100); //온도 값의 형식을 float에서 uint16_t로 바꿈
+ uint16_t HumiToSend = (uint16_t)(humidity*100);  //습도 값의 형식을 float에서 uint16_t로 바꿈
 
+//can메시지 설정
  txMessage.frame.idType = dSTANDARD_CAN_MSG_ID_2_0B;
  txMessage.frame.id = 0x167;
  txMessage.frame.dlc = 8;
@@ -135,9 +136,8 @@ FreeRTOS 기반 멀티태스킹 구조
  txMessage.frame.data6 = 0;
  txMessage.frame.data7 = 0;
 
- CANSPI_Transmit(&txMessage);
 
- if(CANSPI_Transmit(&txMessage) == 1)
+ if(CANSPI_Transmit(&txMessage) == 1)  // can메시지를 송신 및 송신확인
  {
   printf("송신이 성공했습니다.\n");
  }
@@ -162,13 +162,13 @@ FreeRTOS 기반 멀티태스킹 구조
 	for(;;)
 	{
 
-		if(CANSPI_Receive(&rxMessage))
+		if(CANSPI_Receive(&rxMessage)) //수신확인
 	    {
 	        rxValue1 = ((uint16_t)rxMessage.frame.data0 << 8) | rxMessage.frame.data1;
 	        rxValue2 = ((uint16_t)rxMessage.frame.data2 << 8) | rxMessage.frame.data3;
-	        float temp = ((float)rxValue1)*0.01;
-	        float humi = ((float)rxValue2)*0.01;
-	        xQueueSendToBack(xQueue, &temp, portMAX_DELAY);
+	        float temp = ((float)rxValue1)*0.01; //온도 데이터 형식변경
+	        float humi = ((float)rxValue2)*0.01; //습도 데이터 형식변경
+	        xQueueSendToBack(xQueue, &temp, portMAX_DELAY); //큐에 데이터를 전송한다.
 	        xQueueSendToBack(xQueue, &humi, portMAX_DELAY);
 
 	    }
