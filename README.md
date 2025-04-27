@@ -1,5 +1,6 @@
-# STM32 CAN Communication Project
+# 🚀STM32 CAN Communication Project
 
+---
 
 ## 📋 프로젝트 개요
 
@@ -32,29 +33,79 @@ UART를 통한 디버깅 및 상태 출력
 
 FreeRTOS 기반 멀티태스킹 구조
 
-## 🖼️ 시스템 구성도
-plaintext
-복사
-편집
-[DHT11] --> [STM32F103 + MCP2515] --> CAN Bus --> [MCP2515 + STM32F411] --> [LCD 출력]
-## 🗂️ 디렉토리 구조
-markdown
-복사
-편집
-/Transmitter
-    ├── Core
-    ├── Drivers
-    └── FreeRTOS
+## 📡 시스템 구성도
 
-/Receiver
-    ├── Core
-    ├── Drivers
-    └── FreeRTOS
+```plaintext
+[DHT11] 
+    │ 
+[STM32F103] ── SPI ── [MCP2515] 
+    │
+  CAN Bus
+    │
+[MCP2515] ── SPI ── [STM32F411] 
+    │
+[LCD (I2C)] 
+    │
+[UART 디버깅 출력]
+```
 
-/Docs
-    └── System_Architecture.png
+## 🔄 시스템 흐름도
 
-/README.md
+1. **Transmitter (STM32F103)**  
+   - DHT11 데이터 주기적 측정  
+   - CAN 메시지 생성 및 송신 (MCP2515 사용)  
+   - 송신 상태 UART 출력  
+
+2. **Receiver (STM32F411)**  
+   - CAN 메시지 수신  
+   - 데이터 파싱 및 LCD 출력  
+   - 수신 상태 UART 출력  
+
+3. **FreeRTOS Task 구조**  
+   - Sensor Task  
+   - CAN Tx/Rx Task  
+   - LCD Update Task  
+   - Debug Task  
+
+---
+
+
+## 📂 프로젝트 구조
+
+```plaintext
+STM32-CAN-Communication-Project/
+├── Transmitter/
+│   ├── Core/
+│   ├── Drivers/
+│   ├── FreeRTOS/
+│   └── README.md
+├── Receiver/
+│   ├── Core/
+│   ├── Drivers/
+│   ├── FreeRTOS/
+│   └── README.md
+├── Docs/
+│   ├── architecture.png
+│   ├── flowchart.png
+│   └── screenshots/
+├── README.md
+└── LICENSE
+```
+
+## 🛠️ 사용한 기술 스택
+| 구분           | 내용                                           |
+| :------------- | :-------------------------------------------- |
+| MCU            | STM32F103 (Transmitter) <br> STM32F411 (Receiver) |
+| Sensor         | DHT11 (온습도 센서)                           |
+| CAN Module     | MCP2515                         |
+| Display        | ST7735 (LCD)                                |
+| RTOS           | FreeRTOS                                      |
+| Communication  | CAN (SPI 기반 MCP2515) <br> UART (디버깅)    |
+| IDE            | STM32CubeIDE                                  |
+| Language       | C (HAL 라이브러리 활용)                       |
+| Debugger       | ST-Link v2                                    |
+
+---
 ## ⚙️ 개발 환경
 IDE: STM32CubeIDE
 
