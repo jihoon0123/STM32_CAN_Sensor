@@ -36,13 +36,13 @@ Debugging: UART 통신
 | Debugger       | ST-Link v2                                    |
 
 ## ⚙️ 개발 환경
-IDE: STM32CubeIDE
+**IDE**: STM32CubeIDE
 
-Compiler: ARM-GCC
+**Compiler**: ARM-GCC
 
-Debugger: ST-Link v2
+**Debugger**: ST-Link v2
 
-Frameworks: HAL, FreeRTOS
+**Frameworks**: HAL, FreeRTOS
 
 
 ## 📦 주요 기능
@@ -186,16 +186,16 @@ FreeRTOS 기반 멀티태스킹 구조
 
 #### 문제: 수신 측 값 갱신이 안 되는 문제
 
-➔ 원인분석: 송신측에서 UART를 통해 데이터 값이 제대로 송신되고 있는지 시리얼 모니터로 확인
+➔ **원인**: 송신측에서 UART를 통해 데이터 값이 제대로 송신되고 있는지 시리얼 모니터로 확인
 	    이후 수신 측에서도 값이 수신되고 있는지 시리얼 모니터로 확인
    	    확인 결과 제대로 데이터는 송수신되고 있어서 LCD로 표시할 때 문제가 발생 
 
-➔ 해결: Freertos의 Queue를 활용하여 데이터를 안정적으로 전달
+➔ **해결**: Freertos의 Queue를 활용하여 데이터를 안정적으로 전달
 
 
 #### 문제: MCP2515 초기화 불안정
 
-➔ 해결: SPI 설정 확인 및 초기화 순서 수정
+➔  **해결**: SPI 설정 확인 및 초기화 순서 수정
 
 ## 📸 결과 화면
 
@@ -203,7 +203,7 @@ FreeRTOS 기반 멀티태스킹 구조
 |----------------------|---------------------|
 |![제목 없음](https://github.com/user-attachments/assets/00d914a0-5ede-4812-b960-12f88769832b) | ![20250426_153716](https://github.com/user-attachments/assets/c08a239a-d9ae-4729-8693-bb6e32de049d) |
 
-
+																		
 
 
 ## 🔧 개선 사항 및 향후 계획
