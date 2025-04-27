@@ -1,6 +1,7 @@
 # 🚀STM32 CAN 통신 프로젝트
 
 ---
+<br> 
 
 ## 📋 프로젝트 개요
 
@@ -8,7 +9,7 @@
 이 프로젝트는 STM32F103과 STM32F411 보드를 사용하여, MCP2515 모듈을 통해 CAN 통신을 구현하고,
 DHT11 센서에서 측정한 온습도 데이터를 송신 및 수신하여 LCD에 표시하는 시스템을 개발한 것입니다.
 FreeRTOS를 적용하여 안정적인 온도/습도 데이터를 원거리에서 안정적으로 송수신하고, 이를 실시간으로 LCD에 표시하는 시스템을 구축하는 것입니다.
-
+<br><br>
 ## 🛠️ 사용한 기술
 MCU: STM32F103 (Transmitter), STM32F411 (Receiver)
 
@@ -21,7 +22,7 @@ Display: LCD (ST7735)
 RTOS: FreeRTOS
 
 Debugging: UART 통신
-
+<br><br>
 ## 🛠️ 사용한 기술 스택
 | 구분           | 내용                                           |
 | :------------- | :-------------------------------------------- |
@@ -34,6 +35,7 @@ Debugging: UART 통신
 | IDE            | STM32CubeIDE                                  |
 | Language       | C (HAL 라이브러리 활용)                       |
 | Debugger       | ST-Link v2                                    |
+<br><br>
 
 ## ⚙️ 개발 환경
 **IDE**: STM32CubeIDE
@@ -43,7 +45,7 @@ Debugging: UART 통신
 **Debugger**: ST-Link v2
 
 **Frameworks**: HAL, FreeRTOS
-
+<br><br>
 
 ## 📦 주요 기능
 DHT11 센서로 온도/습도 데이터 주기적 측정
@@ -55,6 +57,7 @@ MCP2515를 통한 CAN 메시지 송수신
 UART를 통한 디버깅 및 상태 출력
 
 FreeRTOS 기반 멀티태스킹 구조
+<br>
 
 ## 📡 시스템 구성도
 
@@ -71,6 +74,7 @@ FreeRTOS 기반 멀티태스킹 구조
     │
 [LCD (SPI)] 
 ```
+<br>
 
 ## 🔄 시스템 흐름도
 
@@ -87,6 +91,7 @@ FreeRTOS 기반 멀티태스킹 구조
    - CAN Rx Task를 통해 송신 측 DHT11 데이터를 수신받음 
    - 수신받은 데이터를 다시 Queue를 활용해 LCD Update Task로 받고 화면표시
 
+<br>
 
 ## 🔌 하드웨어 연결
 ### 🚀Transmitter
@@ -119,6 +124,7 @@ FreeRTOS 기반 멀티태스킹 구조
 | SCK_PIN   | PB10      | SCK         |              |
 
 
+<br>
 
 ## 📝 주요 기능 및 코드 설명
 
@@ -182,6 +188,8 @@ FreeRTOS 기반 멀티태스킹 구조
 	}
 }
 ```
+<br>
+
 ## ⚡ 문제 해결 과정
 
 #### 문제: 수신 측 값 갱신이 안 되는 문제
@@ -196,6 +204,7 @@ FreeRTOS 기반 멀티태스킹 구조
 #### 문제: MCP2515 초기화 불안정
 
 ➔  **해결**: SPI 설정 확인 및 초기화 순서 수정
+<br><br><br>
 
 ## 📸 결과 화면
 
@@ -205,6 +214,7 @@ FreeRTOS 기반 멀티태스킹 구조
 
 																		
 
+<br>
 
 ## 🔧 개선 사항 및 향후 계획
 
